@@ -1,13 +1,13 @@
 // Add to List
 
 // User values (editable)
-const defaultBullet = "-"				// Alternatives: * or +
-const defaultChecklist = "- [ ]"		// Alternatives: "* [ ]" or "+ [ ]"
-const listTag = "lists"					// Alternatives: ¯\_(ツ)_/¯ (whatever you want it to be)
+const defaultBullet = "-"         // Alternatives: * or +
+const defaultChecklist = "- [ ]"  // Alternatives: "* [ ]" or "+ [ ]"
+const listTag = "lists"           // Alternatives: ¯\_(ツ)_/¯ (whatever you want it to be)
 
 var selectDraft = function() {
 	var drafts = Draft.query("", "inbox", [listTag]).reverse()  // Get all list drafts newest to oldest
-	var titles = drafts.map(function(d) { return d.title })  // Get titles of all drafts
+	var titles = drafts.map(function(d) { return d.title })     // Get titles of all drafts
 		
 	var p = Prompt.create()
 	p.title = "Select List"
@@ -63,7 +63,7 @@ var selectListType = function() {
 	
 	if (didSelect) {
 		var b = p.buttonPressed.match(/^.+(?= [a-z]+$)/i)[0]  // Extract bullet from selection
-		if (b == "1.") { b = "0." }  // Set up for addBullet() function
+		if (b == "1.") { b = "0." }                           // Set up for addBullet() function
 		return b
 	}
 	else {
@@ -72,9 +72,9 @@ var selectListType = function() {
 }
 
 var addBullet = function(text, index) {
-	var n = parseFloat(bullet)		// Get numeral if numbered list
-	if (n || bullet == "0.") {		// Include condition where new numbered list created
-		n += index + 1  				// Iterate numeral by one
+	var n = parseFloat(bullet)            // Get numeral if numbered list
+	if (n || bullet == "0.") {            // Include condition where new numbered list created
+		n += index + 1                     // Iterate numeral by one
 		return n + ". " + text.trim()
 	}
 	else {
@@ -97,7 +97,7 @@ if (d) {
 	console.log(bullet)
 	if (bullet) {
 		var lines = draft.content.replace(bulletRegex,"").split("\n")  // Strip existing bullets and split to array
-		d.content += "\n" + lines.map(addBullet).join("\n")  // Add bullet and append to draft
+		d.content += "\n" + lines.map(addBullet).join("\n")            // Add bullet and append to draft
 		d.update()
 	}
 	else {
