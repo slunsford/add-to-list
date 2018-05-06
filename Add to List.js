@@ -96,8 +96,11 @@ if (d) {
 	}
 	console.log(bullet)
 	if (bullet) {
-		var lines = draft.content.replace(bulletRegex,"").split("\n")  // Strip existing bullets and split to array
-		d.content += "\n" + lines.map(addBullet).join("\n")            // Add bullet and append to draft
+		var text = draft.content.trim()       // Remove white space on either end
+		text = text.replace(bulletRegex,"")   // Strip existing bullets
+		var lines = text.split("\n")
+		lines = lines.map(addBullet)
+		d.content += "\n" + lines.join("\n")  // Join and append to draft
 		d.update()
 	}
 	else {
