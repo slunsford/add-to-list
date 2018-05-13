@@ -103,6 +103,7 @@ if (d) {
 		lines = lines.map(addBullet)
 		d.content += "\n" + lines.join("\n")  // Join and append to draft
 		d.update()
+		editor.load(d)  // Open list
 	}
 	else {
 		context.cancel()
