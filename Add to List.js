@@ -72,24 +72,25 @@ var selectListType = function() {
 }
 
 var addBullet = function(text, index) {
+	var indent = text.match(/^[\t ]*/)    // Get leading whitespace
 	var n = parseFloat(bullet)            // Get numeral if numbered list
 	if (n || bullet == "0.") {            // Include condition where new numbered list created
 		n += index + 1                     // Iterate numeral by one
-		return n + ". " + text.trim()
+		return indent + n + ". " + text.trim()
 	}
 	else {
-		return bullet.replace("[x]","[ ]") + " " + text.trim()  // Replace checked box with empty box
+		return indent + bullet.replace("[x]","[ ]") + " " + text.trim()  // Replace checked box with empty box
 	}
 }
 
-const bulletRegex = /^([-*+]( \[( |x)\])?|\d+\.)/gm
+const bulletRegex = /^([\t ]*)([-*+]( \[( |x)\])?|\d+\.)/gm
 var bullet = ""
 var d = selectDraft()
 
 if (d) {
 	var matches = d.content.match(bulletRegex)
 	if (matches) {  // No bullets found
-		bullet = matches.reverse()[0]
+		bullet = matches.reverse()[0].trim()
 	}
 	else {
 		bullet = selectListType()
@@ -97,7 +98,7 @@ if (d) {
 	console.log(bullet)
 	if (bullet) {
 		var text = draft.content.trim()       // Remove white space on either end
-		text = text.replace(bulletRegex,"")   // Strip existing bullets
+		text = text.replace(bulletRegex,"$1")   // Strip existing bullets but leave indentation
 		var lines = text.split("\n")
 		lines = lines.map(addBullet)
 		d.content += "\n" + lines.join("\n")  // Join and append to draft
