@@ -35,7 +35,7 @@ var newList = function() {
 	// Prompt for title
 	var p = Prompt.create()
 	p.title = "New List"
-	p.addTextField("title", "", "", { "placeholder": "Title" })
+	p.addTextField("title", "", "", { "placeholder": "Title", "autocapitalization": "sentences" })
 	p.addButton("Create")
 	var didCreate = p.show()
 	
